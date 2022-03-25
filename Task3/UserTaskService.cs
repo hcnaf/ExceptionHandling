@@ -3,7 +3,7 @@ using Task3.DoNotChange;
 
 namespace Task3
 {
-    public class UserTaskService : ITaskService
+    public class UserTaskService
     {
         private readonly IUserDao _userDao;
 
@@ -12,7 +12,7 @@ namespace Task3
             _userDao = userDao;
         }
 
-        public void AddTask(int userId, ITask task)
+        public void AddTask(int userId, UserTask task)
         {
             if (userId < 0)
                 throw new ArgumentException("Invalid userId");
@@ -25,7 +25,7 @@ namespace Task3
             foreach (var t in tasks)
             {
                 if (string.Equals(task.Description, t.Description, StringComparison.OrdinalIgnoreCase))
-                    throw new ArgumentException($"The task already exists");
+                    throw new CustomArgumetnException($"The task already exists");
             }
 
             tasks.Add(task);

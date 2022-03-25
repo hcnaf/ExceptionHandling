@@ -1,6 +1,6 @@
 ﻿namespace Task3.DoNotChange
 {
-    public class UserTask : ITask
+    public class UserTask
     {
         public UserTask(string description)
         {

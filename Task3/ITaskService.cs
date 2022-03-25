@@ -4,6 +4,6 @@ namespace Task3
 {
     public interface ITaskService
     {
-        void AddTask(int id, ITask task);
+        void AddTask(int id, UserTask task);
     }
 }

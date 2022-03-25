@@ -6,41 +6,24 @@ namespace Task2
 {
     internal static class NumberParserHelper
     {
+        private const int zeroCharOffset = 48;
         internal static string Normalize(this string stringValue, out bool isNegative)
         {
             if (string.IsNullOrWhiteSpace(stringValue) || string.IsNullOrEmpty(stringValue))
                 throw new FormatException(nameof(stringValue));
 
-            isNegative = false;
-            if (stringValue[0] == '-')
-                isNegative = true;
+            isNegative = stringValue[0] == '-';
 
             var stringBuilder = new StringBuilder();
 
-            (stringValue[0] == '-' || stringValue[0] == '+'
-                ? stringValue[1..].Where(x => x != ' ')
-                : stringValue.Where(x => x != ' '))
-                    .Aggregate(stringBuilder, (x, y) => char.IsDigit(y)
-                        ? x.Append(y)
-                        : throw new FormatException(nameof(stringValue)));
+            var res = stringValue.TrimStart().TrimEnd();
 
-            return stringBuilder.ToString();
+            if (res[0] == '-' || res[0] == '+')
+                res = res[1..];
+
+            return res.All(x => char.IsDigit(x)) ? res : throw new FormatException(nameof(res));
         }
 
-        internal static int ToInt(this char character) =>
-            character switch
-            {
-                '0' => 0,
-                '1' => 1,
-                '2' => 2,
-                '3' => 3,
-                '4' => 4,
-                '5' => 5,
-                '6' => 6,
-                '7' => 7,
-                '8' => 8,
-                '9' => 9,
-                _ => throw new FormatException("Invalid number!")
-            };
+        internal static int ToInt(this char character) => (int)character - zeroCharOffset;
     }
 }
